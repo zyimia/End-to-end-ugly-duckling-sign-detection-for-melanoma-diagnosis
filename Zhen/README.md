@@ -1,6 +1,5 @@
 
 ## zhen's implementation
-#![](https://github.com/zyimia/SIIMISIC2020/blob/master/Zhen/configs/implementation.png =300x200)
 
 <img src="https://github.com/zyimia/SIIMISIC2020/blob/master/Zhen/configs/implementation.png" alt="drawing" width="720"/>
 ### Step 1: remove duplicates from training data
