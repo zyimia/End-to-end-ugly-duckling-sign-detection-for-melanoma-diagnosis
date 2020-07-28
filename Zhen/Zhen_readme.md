@@ -18,3 +18,9 @@ run Zhen/data_proc/merge_csv.py
 # generate hair mask array from images with hairs, please first select a group of images with hairs from the dataset
 run Zhen/data_proc/img_hair_syn.py
 ```
+
+### Step 4: training & testing
+```
+run Zhen/main.py
+run Zhen/inference/evaluation_aug.py
+```
