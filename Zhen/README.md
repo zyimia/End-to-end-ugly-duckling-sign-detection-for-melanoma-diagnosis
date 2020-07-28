@@ -1,5 +1,6 @@
 
 ## zhen's implementation
+![](https://github.com/zyimia/SIIMISIC2020/blob/master/Zhen/configs/implementation.png)
 ### Step 1: remove duplicates from training data
 ```
 # 486 images repeated in the ISIC2020 training data
