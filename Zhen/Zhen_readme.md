@@ -16,6 +16,7 @@ run Zhen/data_proc/merge_csv.py
 ### Step 3: generate hair mask for augmentation
 ```
 # generate hair mask array from images with hairs, please first select a group of images with hairs from the dataset
+# or you can directly download from https://drive.google.com/file/d/1MNmHMP7DZMyImdrqrO0WZhiZyGB-VCIy/view?usp=sharing
 run Zhen/data_proc/img_hair_syn.py
 ```
 
