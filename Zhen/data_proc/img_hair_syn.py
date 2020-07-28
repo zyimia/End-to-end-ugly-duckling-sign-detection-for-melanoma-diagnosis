@@ -55,7 +55,7 @@ if __name__ == '__main__':
     io.imsave('/home/zyi/MedicalAI/ISIC_2020/hairs2/tttt/51.png', mask.astype(np.uint8))
     plt.imsave('/home/zyi/MedicalAI/ISIC_2020/hairs2/tttt/52.png', img[:, :, ::-1])
     plt.show()
-
+    
     # generate hair mask from selected image with hairs
     # hair_imgs = glob(os.path.join('/home/zyi/MedicalAI/ISIC_2020/hairs2/ddd', '*.jpg'))
     # for img_dir in hair_imgs:
