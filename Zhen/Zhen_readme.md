@@ -12,3 +12,9 @@ run /Zhen/data_proc/remove_duplicate.py
 # since isic 2020 is higly imblance, ~30000 benign vs. ~580 malignant, thus we only add melanoma from other data source
 run Zhen/data_proc/merge_csv.py
 ```
+
+### Step 3: generate hair mask for augmentation
+```
+# generate hair mask array from images with hairs, please first select a group of images with hairs from the dataset
+run Zhen/data_proc/img_hair_syn.py
+```
