@@ -1,3 +1,3 @@
-# Usage
+## Usage
 
-## step 1 remove duplicates from training data
+### Step 1: remove duplicates from training data
