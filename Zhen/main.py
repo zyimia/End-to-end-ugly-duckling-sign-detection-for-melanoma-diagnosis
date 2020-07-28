@@ -232,7 +232,7 @@ if __name__ == '__main__':
 
     if not os.path.exists(config_file['training']['resume_path']):
         run_dir = config_file['model']
-        config_file['training']['result_dir'] = os.path.join(config_file['run_exp'], run_dir, 'fold_' + cfg['fold'])
+        config_file['training']['result_dir'] = os.path.join(config_file['run_exp'], run_dir, 'fold_' + str(cfg['fold']))
     else:
         config_file['training']['result_dir'] = config_file['training']['resume_path']
 
