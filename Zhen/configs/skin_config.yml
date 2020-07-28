@@ -1,0 +1,33 @@
+debug: 0
+fold: 0
+model: cnn-siim
+run_exp: /home/zyi/My_disk/ISIC_2020/run_exp
+ten_crop_test: True
+
+data:
+  channel: 3
+  k_split: /home/zyi/MedicalAI/Skin_lesion_prognosis/run_exp/data_setting/data_split.pkl
+  csv_file: /home/zyi/My_disk/ISIC_2020/train.csv
+  root: /home/zyi/My_disk/ISIC_2020/data/train
+  seq_length: 4
+
+training:
+  batch_size: 64
+  fine_tune:
+    stage: none # none & all & last
+    pre_trained_model: none
+  learning_rate: 0.0003
+  loss:
+    name: bce_loss
+  optimizer:
+    name: Adam
+    weight_decay: 3.0e-5
+  lr_scheduler:
+    name: ReduceLROnPlateau
+    patience: 3
+  max_epoch: 300
+  num_workers: 8
+  result_dir: None
+  resume_path: None
+  seed: 2019
+  teacher: None
