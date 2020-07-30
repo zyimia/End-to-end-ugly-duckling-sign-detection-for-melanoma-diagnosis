@@ -1,14 +1,17 @@
 import torch
 from collections import OrderedDict
-from .resnet_siim import ResNet_SIIM
-from .efficient_siim import Efficient_SIIM
-from .efficient_siimd import Efficient_SIIMD
+from models.regnet_siim import Regnet_SIIM
+from models.resnet_siim import ResNet_SIIM
+from models.efficient_siim import Efficient_SIIM
+from models.efficient_siimd import Efficient_SIIMD
 
 key2model = {
     'efficient-siim': Efficient_SIIM,
     'resnet-siim': ResNet_SIIM,
-    'efficient-siimd': Efficient_SIIMD
+    'efficient-siimd': Efficient_SIIMD,
+    'regnet-siim': Regnet_SIIM
 }
+
 
 
 def convert_state_dict(state_dict):
