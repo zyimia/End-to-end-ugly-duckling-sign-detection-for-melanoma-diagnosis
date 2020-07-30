@@ -45,7 +45,7 @@ class Random_rotate:
 
 
 class Realistic_hair_aug:
-    def __init__(self, hair_library=None, p=0.5):
+    def __init__(self, hair_library=None, p=0.2):
         assert os.path.exists(hair_library)
         self.hair_array = np.load(hair_library)
         self.ratio = p
@@ -64,7 +64,7 @@ class Realistic_hair_aug:
         return image_hair.astype(np.uint8)
 
     def __call__(self, image):
-        if random.random() > self.ratio:
+        if random.random() < self.ratio:
             try:
                 image = self.add_hair(image)
                 image = PIL.Image.fromarray(image)
