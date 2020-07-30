@@ -21,7 +21,7 @@ run Zhen/data_proc/merge_csv.py
 ```
 # generate hair mask array from images with hairs, please first select a group of images with hairs from the dataset
 # or you can directly download from https://drive.google.com/file/d/1MNmHMP7DZMyImdrqrO0WZhiZyGB-VCIy/view?usp=sharing
-# notably, there is ~20% images with hairs in the dataset, so the ratio for applying hair augmentation should not be setting to high 
+# notably, there is ~20% images with hairs in the dataset, so the ratio for applying hair augmentation should not be setting too high 
 run Zhen/data_proc/img_hair_syn.py
 ```
 
