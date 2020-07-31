@@ -45,7 +45,7 @@ class Random_rotate:
 
 
 class Realistic_hair_aug:
-    def __init__(self, hair_library=None, p=0.2):
+    def __init__(self, hair_library=None, p=0.4):
         assert os.path.exists(hair_library)
         self.hair_array = np.load(hair_library)
         self.ratio = p
