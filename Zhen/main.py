@@ -6,8 +6,11 @@ import torch
 import random
 import numpy as np
 import pickle as pkl
+import pandas as pd
 import torch.optim as optim
 from sklearn import metrics
+from models import get_model, convert_state_dict
+from inference.evaluation_aug import evaluation
 from data_proc.augment import Augmentations
 from data_proc.csv_ext_dataset import CSV_Ext_Dataset
 from torch.utils.data import DataLoader
@@ -17,7 +20,7 @@ from misc.utils import get_pred_class_index
 from misc.loss_function import get_loss_fun
 
 threshold = 0.5
-device = torch.device("cuda:1" if torch.cuda.is_available() else "cpu")
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
 def get_model_output(model, data):
@@ -83,6 +86,7 @@ def val(model, val_dataloader, loss_fn):
         for data in val_dataloader:
             outputs = get_model_output(model, data)
             outputs = torch.sigmoid(outputs)
+
             if isinstance(outputs, list) or isinstance(outputs, tuple):
                 if len(outputs) > 1:
                     val_loss = 0
@@ -105,6 +109,43 @@ def val(model, val_dataloader, loss_fn):
     return val_eval_results
 
 
+def inference_csv(cfg, result_dir, device, best_model=True):
+    test_aug_parameters = OrderedDict({'affine': None,
+                                  'hflip': None,
+                                  'vflip': None,
+                                  'color_trans': None,
+                                  'hair_mask': None,
+                                  'rotate': None,
+                                  'microscope': None,
+                                  'normalization': {'mean': (0.485, 0.456, 0.406),
+                                                    'std': (0.229, 0.224, 0.225)},
+                                  'size': 384,
+                                  'scale': (1.0, 1.0),
+                                  'ratio': (1.0, 1.0)
+                                  }
+                                 )
+
+    model_file = cfg['model'] + '_best.model' if best_model else cfg['model'] + '_final.model'
+    # run five fold validation
+    cfg['data']['root'] = '/home/zyi/My_disk/ISIC_2020/data/test'
+    cfg['data']['csv_file'] = '/home/zyi/My_disk/ISIC_2020/test.csv'
+    model = get_model(cfg['model'], cfg['data']['channel'], 1).to(device)
+    saved_model = torch.load(os.path.join(result_dir, model_file), map_location=device)
+
+    try:
+        model.load_state_dict(saved_model['model_state_dict'])  # maybe need to change
+    except RuntimeError:
+        print('convert model layer name!!!')
+        model_state_dict = convert_state_dict(saved_model['model_state_dict'])
+        model.load_state_dict(model_state_dict)
+
+    test_result = evaluation(model, data_root=cfg['data']['root'], csv_file=cfg['data']['csv_file'], device=device,
+                             aug_parameters=test_aug_parameters)
+
+    test_csv = pd.DataFrame({'image_name': list(test_result['image_name']), 'target': list(test_result['target'])})
+    test_csv.to_csv(os.path.join(result_dir, 'submission.csv'), index=False)
+
+
 def main(cfg):
 
     """step 1: setup data"""
@@ -116,6 +157,8 @@ def main(cfg):
                                                    'scale': [0.8, 1.2]},
                                         'hflip': True,
                                         'vflip': True,
+                                        'rotate': True,
+                                        'microscope': (0.05, 0.15),
                                         'hair_mask': '/home/zyi/MedicalAI/ISIC_2020/hairs2/mask_array.npy',
                                         'color_trans': {'brightness': (0.75, 1.25),
                                                         'contrast': (0.75, 1.25),
@@ -123,7 +166,7 @@ def main(cfg):
                                                         'hue': (-0.05, 0.05)},
                                         'normalization': {'mean': (0.485, 0.456, 0.406),
                                                           'std': (0.229, 0.224, 0.225)},
-                                        'size': 320,
+                                        'size': 384,
                                         'scale': (0.7, 1.3),
                                         'ratio': (0.7, 1.3)
                                         }
@@ -134,9 +177,11 @@ def main(cfg):
                                       'vflip': None,
                                       'color_trans': None,
                                       'hair_mask': None,
+                                      'rotate': None,
+                                      'microscope': None,
                                       'normalization': {'mean': (0.485, 0.456, 0.406),
                                                         'std': (0.229, 0.224, 0.225)},
-                                      'size': 256,
+                                      'size': 384,
                                       'scale': (1.0, 1.0),
                                       'ratio': (1.0, 1.0)
                                       }
@@ -147,7 +192,7 @@ def main(cfg):
 
     train_dataset = CSV_Ext_Dataset(data_csv=cfg['data']['csv_file'], data_root=cfg['data']['root'],
                                     ext_csv=cfg['data']['ext_csv'], is_train=True, fold=cfg['fold'],
-                                    transform=train_augmentor.transform)
+                                    test_csv=cfg['data']['test_csv'], transform=train_augmentor.transform)
 
     val_dataset = CSV_Ext_Dataset(data_csv=cfg['data']['csv_file'], data_root=cfg['data']['root'],
                                   is_train=False, fold=cfg['fold'], transform=val_augmentor.transform)
@@ -211,6 +256,8 @@ def main(cfg):
     if os.path.isfile(os.path.join(train_manager.output_dir, train_manager.model_name + "_scheduled.model")):
         os.remove(os.path.join(train_manager.output_dir, train_manager.model_name + "_scheduled.model"))
 
+    inference_csv(cfg, cfg['training']['result_dir'], device, best_model=True)
+
 
 if __name__ == '__main__':
     seed = random.randint(1, 10000)
@@ -223,16 +270,19 @@ if __name__ == '__main__':
     if config_file['debug']:
         config_file['training']['max_epoch'] = 1
 
-    config_file['model'] = 'efficient-siimd'
+    config_file['fold'] = 1
+    config_file['model'] = 'regnet-siim'
     config_file['run_exp'] = '/home/zyi/My_disk/ISIC_2020/run_exp'
-    config_file['data']['csv_file'] = '/media/zyi/080c2d74-aa6d-4851-acdc-c9588854e17c/ISIC_2020/train.csv'
+    config_file['data']['csv_file'] = '/home/zyi/MedicalAI/ISIC_2020/train.csv'
     config_file['data']['root'] = '/home/zyi/MedicalAI/ISIC_2020/data/train'
     config_file['data']['ext_csv'] = '/home/zyi/MedicalAI/ISIC_2020/ext_dataset.csv'
+    config_file['data']['test_csv'] = '/home/zyi/MedicalAI/ISIC_2020/mel_test.csv'
+    # config_file['training']['resume_path'] = '/media/zyi/080c2d74-aa6d-4851-acdc-c9588854e17c/ISIC_2020/run_exp/regnet-siim/with_test/fold_0/'
     print(config_file['training']['learning_rate'])
 
     if not os.path.exists(config_file['training']['resume_path']):
         run_dir = config_file['model']
-        config_file['training']['result_dir'] = os.path.join(config_file['run_exp'], run_dir, 'fold_' + str(cfg['fold']))
+        config_file['training']['result_dir'] = os.path.join(config_file['run_exp'], run_dir, 'with_test_384', 'fold_' + str(config_file['fold']))
     else:
         config_file['training']['result_dir'] = config_file['training']['resume_path']
 
