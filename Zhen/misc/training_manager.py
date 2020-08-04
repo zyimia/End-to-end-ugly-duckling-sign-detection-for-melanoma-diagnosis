@@ -112,6 +112,23 @@ class training_manager():
                                                  {'params': self.model.module.block3.parameters(), 'lr': 1e-5}
                                                  ],
                                                     learning_rate, weight_decay=optim_dict['weight_decay'])
+
+        elif model == 'regnet-siim':
+            print('we are using regnet!!!')
+            try:
+                print('we are training model on single gpu!!!')
+                self.optimizer = self.optimizer([{'params': self.model.classifier.parameters()},
+                                                 {'params': self.model.stem.parameters(), 'lr': 1e-5},
+                                                 {'params': self.model.feature.parameters(), 'lr': 1e-5}
+                                                 ],
+                                                learning_rate, weight_decay=optim_dict['weight_decay'])
+            except AttributeError:
+                print('we are training model on multiple gpus!!!')
+                self.optimizer = self.optimizer([{'params': self.model.module.classifier.parameters()},
+                                                 {'params': self.model.module.stem.parameters(), 'lr': 1e-5},
+                                                 {'params': self.model.module.feature.parameters(), 'lr': 1e-5}
+                                                 ],
+                                                    learning_rate, weight_decay=optim_dict['weight_decay'])
         else:
             raise ValueError
 
