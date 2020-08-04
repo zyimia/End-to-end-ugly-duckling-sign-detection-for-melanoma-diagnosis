@@ -37,8 +37,8 @@ class CSV_Ext_Dataset(Dataset):
 
             # print(np.unique(self.labels))
         else:
-            self.images = self.samples['val_images']
-            self.labels = self.samples['val_labels']
+            self.images = np.array(self.samples['val_images'])
+            self.labels = np.array(self.samples['val_labels'])
 
         assert len(self.images) == len(self.labels)
 
