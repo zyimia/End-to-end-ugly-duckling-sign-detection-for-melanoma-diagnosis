@@ -1,5 +1,5 @@
 
-## zhen's implementation
+## Implementation Details
 
 <img src="https://github.com/zyimia/SIIMISIC2020/blob/master/Zhen/configs/implementation.png" alt="drawing" width="720"/>
 
