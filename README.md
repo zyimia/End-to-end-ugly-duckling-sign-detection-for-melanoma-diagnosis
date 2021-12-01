@@ -8,7 +8,7 @@ zhen's implementation can be seen [here](https://github.com/zyimia/SIIMISIC2020/
 Concept description and ISIC skin data statistics can be seen [here](https://github.com/zyimia/SIIMISIC2020/blob/master/Zhen/ugly_duckling/ugly_duckling_sign/ugly_duckling.pdf).
 
 For more details please check our MICCAI 2021 paper:
-
+```
 @inproceedings{yu2021end,
   title={End-to-End Ugly Duckling Sign Detection for Melanoma Identification with Transformers},
   author={Yu, Zhen and Mar, Victoria and Eriksson, Anders and Chandra, Shakes and Bonnington, Paul and Zhang, Lei and Ge, Zongyuan},
@@ -17,3 +17,4 @@ For more details please check our MICCAI 2021 paper:
   year={2021},
   organization={Springer}
 }
+```
