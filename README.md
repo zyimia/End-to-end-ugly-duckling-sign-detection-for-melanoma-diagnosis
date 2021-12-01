@@ -1,4 +1,4 @@
-# SIIMISIC2020
+# End-to-End Ugly Duckling Sign Detection for Melanoma Identification with Transformers
 ## Data preprocessing & Baseline model training
 zhen's implementation can be seen [here](https://github.com/zyimia/SIIMISIC2020/tree/master/Zhen)
 ## Ugly duckling modeling
