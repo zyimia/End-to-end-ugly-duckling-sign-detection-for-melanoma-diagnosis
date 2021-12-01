@@ -8,8 +8,6 @@ zhen's implementation can be seen [here](https://github.com/zyimia/SIIMISIC2020/
 
 Concept description and ISIC skin data statistics can be seen [here](https://github.com/zyimia/SIIMISIC2020/blob/master/Zhen/ugly_duckling/ugly_duckling_sign/ugly_duckling.pdf).
 
-Code: will come soon
-
 For more details please check our MICCAI 2021 paper:
 ```
 @inproceedings{yu2021end,
