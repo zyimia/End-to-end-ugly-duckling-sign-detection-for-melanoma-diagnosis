@@ -1,5 +1,5 @@
 # End-to-End Ugly Duckling Sign Detection for Melanoma Identification with Transformers
-Pytorch implementation of end to [end ugly duckling sign detection for melanoma diagnosis](https://link.springer.com/chapter/10.1007/978-3-030-87234-2_17)
+Pytorch implementation of [end to end ugly duckling sign detection for melanoma diagnosis](https://link.springer.com/chapter/10.1007/978-3-030-87234-2_17)
 ## Data preprocessing & Baseline model training
 zhen's implementation can be seen [here](https://github.com/zyimia/SIIMISIC2020/tree/master/Zhen)
 ## Ugly duckling modeling
