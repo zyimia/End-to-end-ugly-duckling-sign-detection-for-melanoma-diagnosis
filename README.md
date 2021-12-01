@@ -9,5 +9,11 @@ Concept description and ISIC skin data statistics can be seen [here](https://git
 
 For more details please check our MICCAI 2021 paper:
 
-Zhen Yu, Victoria Mar, Anders Eriksson, Shakes Chandra, Paul Bonnington, Lei Zhang, and Zongyuan Ge. "End-to-End Ugly Duckling Sign Detection for Melanoma Identification with Transformers." In International Conference on Medical Image Computing and Computer-Assisted Intervention, pp. 176-184. Springer, Cham, 2021.
-
+@inproceedings{yu2021end,
+  title={End-to-End Ugly Duckling Sign Detection for Melanoma Identification with Transformers},
+  author={Yu, Zhen and Mar, Victoria and Eriksson, Anders and Chandra, Shakes and Bonnington, Paul and Zhang, Lei and Ge, Zongyuan},
+  booktitle={International Conference on Medical Image Computing and Computer-Assisted Intervention},
+  pages={176--184},
+  year={2021},
+  organization={Springer}
+}
